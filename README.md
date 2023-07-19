@@ -33,7 +33,16 @@ Flask
 
 
 # How To Run:
-First step is to run kafka producer and consumer.
+
+Put all these files into a single folder except for the Working Directory Folder.
+- Templates 
+- static
+- app.py
+- pickle file
+# Note: unzip the pickle file
+
+
+# Run Kafka
 # These commands are specifically for windows
 
 # Start Zookeeper
