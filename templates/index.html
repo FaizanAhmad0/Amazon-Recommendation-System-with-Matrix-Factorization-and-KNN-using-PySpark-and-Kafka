@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>My Website</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
+  </head>
+  <body>
+    <div class="container">
+      <div class="row" style="margin-top:5%">
+        <div class="col-lg-6 col-md-12 mb-4 mx-auto">
+          <h1 class="text-center"><strong>Welcome to our Mini Amazon Store
+          </strong>
+          </h1>
+        </div>
+      </div>
+      <div class="row" style="margin-top: 5%;" >
+        <div class="col-lg-12 col-md-12 mb-12">
+          <h1>Products</h1>
+        </div>
+      </div>
+      <div class="row" id="product-cards">
+        {% for product in products %}
+        <div class="col-lg-4 col-md-6 mb-4">
+          <div class="card h-100">
+            <img class="card-img-top" src="{{ product.image }}" alt="">
+            <div class="card-body">
+              <h4 class="card-title">
+                {{ product.name }}
+              </h4>
+              <h5>${{ product.price }}</h5>
+              <p class="card-text">{{ product.description }}</p>
+            </div>
+            <div class="card-footer">
+              <form method="post" action="{{ url_for('add_to_cart') }}">
+                <input type="hidden" name="product_id" value="{{ product.id }}">
+                <input type="submit" class="btn btn-primary" value="Add to Cart">
+              </form>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+
+      <div class="row" style="margin-top: 5%;">
+        <div class="col-lg-6 col-md-12 mb-4">
+          <h1>Recommendations</h1>
+        </div>
+      </div>
+      
+      <div class="row" id="recommendations">
+        <div class="col-lg-12">
+          <ul>
+            {% for recommendation in recommendations %}
+            <li>{{ recommendation }}</li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>      
+
+      <div class="row" style="margin-top: 5%;">
+        <div class="col-lg-6 col-md-12 mb-4">
+          <h1>Cart</h1>
+        </div>
+      </div>
+
+      <div class="row" id="cart">
+        <div class="col-lg-12">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th>Subtotal</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for item in cart %}
+              <tr>
+                <td>{{ item.name }}</td>
+                <td>${{ item.price }}</td>
+                <td>{{ item.qty }}</td>
+                <td>${{ item.price * item.qty }}</td>
+              </tr>
+              {% endfor %}
+              <tr>
+                <td colspan="3"><strong>Total</strong></td>
+                <td><strong>${{ cart_total }}</strong></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="checkout">
+        <button id="checkout-btn" class="btn btn-primary">checkout</button>
+      </div>
+      
+      <div id="thankyou-msg" style="display:none;">
+        <p>Thank you for your order!</p>
+      </div>
+      
+
+    </div>
+
+    <div class="row" style="margin-top:5%">
+      <div class="col-lg-6 col-md-12 mb-4 mx-auto">
+        <h1 class="text-center"><strong>Thank You for Shopping With Us
+        </strong>
+        </h1>
+      </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+    $(document).ready(function() {
+      $("#checkout-btn").click(function() {
+        // Hide the checkout button
+        $(".container").hide();
+        // Show the thank you message
+        $("#thankyou-msg").show();
+      });
+    });
+    </script>
+
+
+  </body>
+</html>
